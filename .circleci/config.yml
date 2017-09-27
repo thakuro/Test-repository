@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/Test-repository
+    working_directory: ~/Test-repository/.circleci
     # The primary container is an instance of the first list image listed. Your build commands run in this container.
     docker:
       - image: circleci/node:4.8.2
@@ -13,12 +13,12 @@ jobs:
           name: Update npm
           command: 'sudo npm install -g npm@latest'
       - restore_cache:
-          key: 
+          key: dependency-cache-{{ checksum "package.json" }}
       - run:
           name: Install npm wee
           command: npm install
       - save_cache:
-          key: 
+          key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - node_modules
   test:
